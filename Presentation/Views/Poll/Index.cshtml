@@ -19,6 +19,7 @@
                     <p class="card-text text-muted"><small>Created on @poll.DateCreated.ToString("dd MMM yyyy")</small></p>
                 </div>
                 <div class="card-footer text-center">
+                    <a href="@Url.Action("View", "Poll", new { pollId = poll.Id })" class="btn btn-primary">View</a>
                     <a href="@Url.Action("Vote", "Poll", new { pollId = poll.Id })" class="btn btn-primary">Vote</a>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 using DataAccess.DataContext;
+using DataAccess.Interfaces;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,10 @@ namespace Presentation
     .AddEntityFrameworkStores<PollDbContext>();
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<PollRepository>();
+
+            //Comment the other out to switch which repository to use
+            //builder.Services.AddSingleton<IPollRepository, PollFileRepository>();
+            builder.Services.AddScoped<IPollRepository, PollRepository>();
 
             var app = builder.Build();
 

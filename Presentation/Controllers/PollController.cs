@@ -1,4 +1,5 @@
-﻿using DataAccess.Repositories;
+﻿using DataAccess.Interfaces;
+using DataAccess.Repositories;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,7 @@ namespace Presentation.Controllers
     {
 
         //FromServices being here is methodInjection
-        public IActionResult Index([FromServices] PollRepository pollRepository)
+        public IActionResult Index([FromServices] IPollRepository pollRepository)
         {
             var polls = pollRepository.GetPolls().OrderByDescending(poll => poll.DateCreated);
             return View(polls);
@@ -22,7 +23,7 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Poll poll, [FromServices] PollRepository pollRepository)
+        public IActionResult Create(Poll poll, [FromServices] IPollRepository pollRepository)
         {
             if (pollRepository.GetPoll(poll.Id) != null)
             {
@@ -31,20 +32,20 @@ namespace Presentation.Controllers
             }
             else
             {
-                pollRepository.AddPoll(poll);
+                pollRepository.CreatePoll(poll);
                 return RedirectToAction("Index");
             }
         }
 
         [HttpGet] 
-        public IActionResult Vote(int pollId, [FromServices] PollRepository pollRepository)
+        public IActionResult Vote(int pollId, [FromServices] IPollRepository pollRepository)
         {
             Poll poll = pollRepository.GetPoll(pollId);
             return View(poll);
         }
 
         [HttpPost]
-        public IActionResult Vote(int pollId, int selectedOption, [FromServices] PollRepository pollRepository)
+        public IActionResult Vote(int pollId, int selectedOption, [FromServices] IPollRepository pollRepository)
         {
             bool success = pollRepository.Vote(pollId, selectedOption);
 
@@ -56,6 +57,13 @@ namespace Presentation.Controllers
 
             TempData["success"] = "Vote submitted successfully!";
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult View(int pollId, [FromServices] IPollRepository pollRepository)
+        {
+            Poll poll = pollRepository.GetPoll(pollId);
+            return View(poll);
         }
     }
 }

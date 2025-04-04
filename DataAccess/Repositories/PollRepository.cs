@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.Components.DictionaryAdapter.Xml;
 using DataAccess.DataContext;
+using DataAccess.Interfaces;
 using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repositories
 {
-    public class PollRepository
+    public class PollRepository : IPollRepository
     {
         private PollDbContext _pollContext;
 
@@ -20,7 +21,7 @@ namespace DataAccess.Repositories
             _pollContext = pollContext;
         }
 
-        public void AddPoll(Poll poll)
+        public void CreatePoll(Poll poll)
         {
             _pollContext.Polls.Add(poll);
             _pollContext.SaveChanges();

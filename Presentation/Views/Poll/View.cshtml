@@ -1,0 +1,49 @@
+﻿@model Domain.Models.Poll
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Poll Details";
+}
+
+<div class="container mt-2">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Poll Details</h3>
+        </div>
+        <div class="card-body">
+            <p class="fs-5 mb-2">Title: @Model.Title</p>
+
+            <p class="fs-5 mb-2">Date Created: @Model.DateCreated.ToString("MMMM dd, yyyy")</p>
+
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        </div>
+        <div class="card-footer text-end">
+            <a href="@Url.Action("Index", "Poll")" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@{
+    var pollChartsData = new
+    {
+        pollId = Model.Id,
+        title = Model.Title,
+        labels = new[] { Model.Option1Text, Model.Option2Text, Model.Option3Text },
+        data = new[] { Model.Option1VotesCount, Model.Option2VotesCount, Model.Option3VotesCount }
+    };
+
+    var jsonData = JsonSerializer.Serialize(pollChartsData);
+}
+
+<script>
+    window.pollChartData = @Html.Raw(jsonData);
+</script>
+
+
+<script src="/js/site.js"></script>
+

@@ -1,0 +1,13 @@
+[
+  {
+    "Id": 1,
+    "Title": "This is a sample question?",
+    "Option1Text": "Answer 1 ",
+    "Option2Text": "Answer 2 ",
+    "Option3Text": "Answer 3",
+    "Option1VotesCount": 2,
+    "Option2VotesCount": 1,
+    "Option3VotesCount": 0,
+    "DateCreated": "2025-04-04T19:05:05"
+  }
+]
