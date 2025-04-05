@@ -60,7 +60,7 @@ namespace Presentation.Controllers
                 return RedirectToAction("Index");
             }
 
-            Vote vote = new Vote() { VoterId = User.Identity.Name, PollId = pollId };
+            Vote vote = new Vote() { VoterId = User.Identity.Name, PollId = pollId, VoteTimestamp = DateTime.Now };
             pollRepository.AddUsersVoteToPoll(vote);
 
             TempData["success"] = "Vote submitted successfully!";
