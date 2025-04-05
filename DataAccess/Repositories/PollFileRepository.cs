@@ -87,5 +87,14 @@ namespace DataAccess.Repositories
             File.WriteAllText(_filePath, serialisedJson);
             return true;
         }
+
+        public void AddUsersVoteToPoll(Vote vote)
+        {
+        }
+
+        public bool UserVotedOnPoll(string voterId, int pollId)
+        {
+            return false;
+        }
     }
 }

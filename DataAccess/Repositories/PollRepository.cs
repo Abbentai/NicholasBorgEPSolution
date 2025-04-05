@@ -37,8 +37,22 @@ namespace DataAccess.Repositories
             return _pollContext.Polls.SingleOrDefault(x => x.Id == id);
         }
 
+        public void AddUsersVoteToPoll(Vote vote)
+        {
+            _pollContext.Votes.Add(vote);
+            _pollContext.SaveChanges();
+        }
+
+        public bool UserVotedOnPoll(string voterId, int pollId)
+        {
+            var vote = _pollContext.Votes.SingleOrDefault(x => x.VoterId == voterId && x.PollId == pollId);
+
+            return vote != null;
+        }
+
         public bool Vote(int pollId, int selectedOption)
         {
+            //retrieves poll and adds 1 to the vote count depending on the option selected
             var poll = GetPoll(pollId);
             if (poll == null)
                 return false;

@@ -3,6 +3,7 @@ using DataAccess.Interfaces;
 using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Presentation.ActionFilters;
 
 namespace Presentation
 {
@@ -19,9 +20,13 @@ namespace Presentation
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<PollDbContext>();
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<PollDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddControllers(options =>
+            {
+                //options.Filters.Add<LoginVoteActionFilter> (); // Add the filter to all controllers
+            });
 
 
             //Comment the other out to switch which repository to use

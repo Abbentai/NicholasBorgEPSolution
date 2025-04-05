@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20250404133757_first-migration")]
+    [Migration("20250405113709_first-migration")]
     partial class firstmigration
     {
         /// <inheritdoc />
@@ -40,25 +40,22 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Option1VotesCount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Option1VotesCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Option2Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Option2VotesCount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Option2VotesCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Option3Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Option3VotesCount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Option3VotesCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -67,6 +64,22 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Polls");
+                });
+
+            modelBuilder.Entity("Domain.Models.Vote", b =>
+                {
+                    b.Property<int>("PollId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VoterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("VoteTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PollId", "VoterId");
+
+                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

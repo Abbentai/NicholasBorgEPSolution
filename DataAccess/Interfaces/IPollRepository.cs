@@ -7,7 +7,7 @@ using Domain.Models;
 
 namespace DataAccess.Interfaces
 {
-    //Interface here is used for a rough definition for Repository classes
+    //Interface here is used for a rough definition for both Repository classes
     public interface IPollRepository
     {
         void CreatePoll(Poll poll);
@@ -15,5 +15,10 @@ namespace DataAccess.Interfaces
         Poll GetPoll(int id);
 
         bool Vote(int pollId, int selectedOption);
+
+        public void AddUsersVoteToPoll(Vote vote);
+
+        public bool UserVotedOnPoll(string voterId, int pollId);
+
     }
 }

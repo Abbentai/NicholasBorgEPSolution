@@ -2,6 +2,7 @@
 using DataAccess.Repositories;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.ActionFilters;
 
 namespace Presentation.Controllers
 {
@@ -15,7 +16,7 @@ namespace Presentation.Controllers
             return View(polls);
         }
 
-        [HttpGet] //used to load the page with empty test boxes
+        [HttpGet] 
         public IActionResult Create()
         {
             Poll currentPoll = new Poll();
@@ -33,11 +34,13 @@ namespace Presentation.Controllers
             else
             {
                 pollRepository.CreatePoll(poll);
+                TempData["success"] = "Poll created successfully!";
                 return RedirectToAction("Index");
             }
         }
 
-        [HttpGet] 
+        [HttpGet]
+        [LoginVoteActionFilter()]
         public IActionResult Vote(int pollId, [FromServices] IPollRepository pollRepository)
         {
             Poll poll = pollRepository.GetPoll(pollId);
@@ -45,8 +48,10 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [LoginVoteActionFilter()]
         public IActionResult Vote(int pollId, int selectedOption, [FromServices] IPollRepository pollRepository)
         {
+            //First submits the vote and then adds the user that voted to the poll
             bool success = pollRepository.Vote(pollId, selectedOption);
 
             if (!success)
@@ -54,6 +59,9 @@ namespace Presentation.Controllers
                 TempData["error"] = "Voting Failed; option or poll is invalid";
                 return RedirectToAction("Index");
             }
+
+            Vote vote = new Vote() { VoterId = User.Identity.Name, PollId = pollId };
+            pollRepository.AddUsersVoteToPoll(vote);
 
             TempData["success"] = "Vote submitted successfully!";
             return RedirectToAction("Index");

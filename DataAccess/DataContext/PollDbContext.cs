@@ -12,6 +12,16 @@ namespace DataAccess.DataContext
         {
         }
 
+        //Overides ModelCreating method so that PollId and VoterId form a composite primary key
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Vote>()
+                .HasKey(v => new { v.PollId, v.VoterId });
+        }
+
         public DbSet<Poll> Polls { get; set; }
+        public DbSet<Vote> Votes  { get; set; }
     }
 }

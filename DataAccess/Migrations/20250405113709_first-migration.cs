@@ -60,14 +60,27 @@ namespace DataAccess.Migrations
                     Option1Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Option2Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Option3Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Option1VotesCount = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Option2VotesCount = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Option3VotesCount = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Option1VotesCount = table.Column<int>(type: "int", nullable: false),
+                    Option2VotesCount = table.Column<int>(type: "int", nullable: false),
+                    Option3VotesCount = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Polls", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Votes",
+                columns: table => new
+                {
+                    PollId = table.Column<int>(type: "int", nullable: false),
+                    VoterId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    VoteTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Votes", x => new { x.PollId, x.VoterId });
                 });
 
             migrationBuilder.CreateTable(
@@ -236,6 +249,9 @@ namespace DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Polls");
+
+            migrationBuilder.DropTable(
+                name: "Votes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

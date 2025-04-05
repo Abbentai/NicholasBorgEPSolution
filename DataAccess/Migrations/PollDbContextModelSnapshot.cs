@@ -63,6 +63,22 @@ namespace DataAccess.Migrations
                     b.ToTable("Polls");
                 });
 
+            modelBuilder.Entity("Domain.Models.Vote", b =>
+                {
+                    b.Property<int>("PollId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VoterId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("VoteTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PollId", "VoterId");
+
+                    b.ToTable("Votes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
